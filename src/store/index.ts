@@ -5,10 +5,18 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    meosDomain: "localhost",
+    loading: false,
     connectionStatus: null as boolean | null,
     competetionName: undefined as string | undefined
   },
   mutations: {
+    changeDomain(state, domain: string) {
+      state.meosDomain = domain;
+    },
+    changeLoading(state) {
+      state.loading = !state.loading;
+    },
     connected(state) {
       state.connectionStatus = true;
     },

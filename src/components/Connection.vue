@@ -1,10 +1,10 @@
 <template>
   <div>
-    <button @click="connect()" :disabled="connection">
+    <button v-if="!connected" @click="connect()" :disabled="loading">
       Connect
     </button>
-    <p v-if="connection">Connected to: {{ competetionName }}</p>
-    <p v-else-if="connection === false">
+    <p v-if="connected">Connected to: {{ competetionName }}</p>
+    <p v-else-if="connected === false">
       Connection failed, check if the information server is running
     </p>
     <p v-else>Click to connect to meos</p>
@@ -18,13 +18,11 @@ const parseString = require("xml2js").parseString;
 
 export default Vue.extend({
   name: "Connection",
-  data: function() {
-    return {
-      connecting: false as boolean
-    };
-  },
   computed: {
-    connection() {
+    loading() {
+      return this.$store.state.loading;
+    },
+    connected() {
       return this.$store.state.connectionStatus;
     },
     competetionName() {
@@ -33,9 +31,9 @@ export default Vue.extend({
   },
   methods: {
     connect: function() {
-      this.connecting = true;
+      this.$store.commit("changeLoading");
       axios
-        .get("http://localhost:2009/meos?get=competition")
+        .get(`http://${this.$store.state.meosDomain}:2009/meos?get=competition`)
         .then(res => {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           let resObj: any;
@@ -48,10 +46,8 @@ export default Vue.extend({
             resObj.MOPComplete.competition[0]._
           );
         })
-        .catch(() => {
-          this.$store.commit("disconnected");
-        });
-      this.connecting = false;
+        .catch(() => this.$store.commit("disconnected"))
+        .then(() => this.$store.commit("changeLoading"));
     }
   }
 });
