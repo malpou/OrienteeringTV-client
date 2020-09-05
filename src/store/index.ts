@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import { ClassInfo } from "@/utils/types";
+import { ClassInfo, Runner } from "@/utils/types";
 
 Vue.use(Vuex);
 
@@ -9,8 +9,12 @@ export default new Vuex.Store({
     meosDomain: "localhost",
     connectionStatus: null as boolean | null,
     competetionName: undefined as string | undefined,
-    pickedClass: null as ClassInfo | null,
-    classes: [] as ClassInfo[]
+    isClassPicked: false,
+    pickedClass: {} as ClassInfo,
+    classes: [] as ClassInfo[],
+    isRunnerPicked: false,
+    pickedRunner: {} as Runner,
+    runners: [] as Runner[]
   },
   mutations: {
     connected(state) {
@@ -24,12 +28,20 @@ export default new Vuex.Store({
     },
     changePickedClass(state, pickedClass: ClassInfo) {
       state.pickedClass = pickedClass;
+      state.isClassPicked = true;
+    },
+    changePickedRunner(state, pickedRunner: Runner) {
+      state.pickedRunner = pickedRunner;
+      state.isRunnerPicked = true;
     },
     updateCompetionName(state, name: string) {
       state.competetionName = name;
     },
     updateClasses(state, classes: ClassInfo[]) {
       state.classes = classes;
+    },
+    updateRunners(state, runners: Runner[]) {
+      state.runners = runners;
     }
   },
   actions: {},
