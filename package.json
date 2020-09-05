@@ -15,12 +15,14 @@
   "dependencies": {
     "axios": "^0.20.0",
     "vue": "^2.6.11",
+    "vue-multiselect": "^2.1.6",
     "vue-router": "^3.2.0",
     "vuex": "^3.4.0",
     "xml2js": "^0.4.23"
   },
   "devDependencies": {
     "@types/electron-devtools-installer": "^2.2.0",
+    "@types/vue-select": "^2.5.0",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
