@@ -13,41 +13,38 @@
 
 <script lang="ts">
 import Vue from "vue";
+import store from "@/store"
 import axios from "axios";
-const parseString = require("xml2js").parseString;
+import { getJSON } from "@/utils/objectCreation";
 
 export default Vue.extend({
   name: "Connection",
   computed: {
     loading() {
-      return this.$store.state.loading;
+      return store.state.loading;
     },
     connected() {
-      return this.$store.state.connectionStatus;
+      return store.state.connectionStatus;
     },
     competetionName() {
-      return this.$store.state.competetionName;
+      return store.state.competetionName;
     }
   },
   methods: {
     connect: function() {
-      this.$store.commit("changeLoading");
+      store.commit("changeLoading");
       axios
-        .get(`http://${this.$store.state.meosDomain}:2009/meos?get=competition`)
+        .get(`http://${store.state.meosDomain}:2009/meos?get=competition`)
         .then(res => {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          let resObj: any;
-          parseString(res.data, function(err: unknown, result: object) {
-            resObj = result;
-          });
-          this.$store.commit("connected");
-          this.$store.commit(
+          const resObj = getJSON(res);
+          store.commit(
             "updateCompetionName",
             resObj.MOPComplete.competition[0]._
           );
+          store.commit("connected");
         })
-        .catch(() => this.$store.commit("disconnected"))
-        .then(() => this.$store.commit("changeLoading"));
+        .catch(() => store.commit("disconnected"))
+        .then(() => store.commit("changeLoading"));
     }
   }
 });
