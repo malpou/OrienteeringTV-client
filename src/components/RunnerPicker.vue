@@ -1,12 +1,12 @@
 <template>
   <div class="selector">
-    <label class="typo__label">Pick class to follow</label>
+    <label class="typo__label">Pick a runner to follow</label>
     <multiselect
-      v-model="selectedClass"
+      v-model="selectedRunner"
       deselect-label="Can't remove this value"
       track-by="name"
       label="name"
-      :options="classes"
+      :options="runners"
       :searchable="false"
       :allow-empty="false"
     >
@@ -22,39 +22,42 @@ import Vue from "vue";
 import store from "@/store";
 import axios from "axios";
 import Multiselect from "vue-multiselect";
-import { getJSON, createClass } from "@/utils/objectCreation";
-import { ClassInfo } from "@/utils/types";
+import { getJSON, createRunner } from "@/utils/objectCreation";
+import { Runner } from "@/utils/types";
 
 Vue.component("multiselect", Multiselect);
 
 export default {
-  name: "ClassPicker",
+  name: "RunnerPicker",
   components: { Multiselect },
   data() {
     return {
-      selectedClass: store.state.pickedClass
+      selectedRunner: store.state.pickedRunner
     };
   },
   computed: {
-    classes() {
-      return store.state.classes;
+    runners() {
+      return store.state.runners;
     }
   },
   created: function() {
     axios
-      .get(`http://${store.state.meosDomain}:2009/meos?get=class`)
+      .get(
+        `http://${store.state.meosDomain}:2009/meos?get=competitor&class=${store.state.pickedClass.id}`
+      )
       .then(res => {
         const resObj = getJSON(res);
-        const classes: ClassInfo[] = [];
-        resObj.MOPComplete.cls.forEach((element: unknown) => {
-          classes.push(createClass(element));
+        const runners: Runner[] = [];
+        resObj.MOPComplete.cmp.forEach((element: unknown) => {
+          runners.push(createRunner(element));
         });
-        store.commit("updateClasses", classes);
+        //TODO Need to sort the runners by their ID before pushing them to the store
+        store.commit("updateRunners", runners);
       });
   },
   watch: {
-    selectedClass: function(newClass: ClassInfo) {
-      store.commit("changePickedClass", newClass);
+    selectedRunner: function(newRunner: Runner) {
+      store.commit("changePickedRunner", newRunner);
     }
   }
 };

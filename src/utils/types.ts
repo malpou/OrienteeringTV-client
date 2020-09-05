@@ -3,3 +3,15 @@ export type ClassInfo = {
   name: string;
   radios: string[];
 };
+
+export type Runner = {
+  id: number;
+  name: string;
+  startTime: Time;
+};
+
+export type Time = {
+  hours: number;
+  minutes: number;
+  seconds: number;
+};
