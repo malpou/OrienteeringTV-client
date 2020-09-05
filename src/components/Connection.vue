@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button v-if="!connected" @click="connect()" :disabled="loading">
+    <button v-if="!connected" @click="connect()" :disabled="this.loading">
       Connect
     </button>
     <p v-if="connected">Connected to: {{ competetionName }}</p>
@@ -13,16 +13,21 @@
 
 <script lang="ts">
 import Vue from "vue";
-import store from "@/store"
+import store from "@/store";
 import axios from "axios";
 import { getJSON } from "@/utils/objectCreation";
 
 export default Vue.extend({
   name: "Connection",
+  data() {
+    return {
+      loading: false
+    };
+  },
   computed: {
-    loading() {
+    /*loading() {
       return store.state.loading;
-    },
+    },*/
     connected() {
       return store.state.connectionStatus;
     },
@@ -32,7 +37,7 @@ export default Vue.extend({
   },
   methods: {
     connect: function() {
-      store.commit("changeLoading");
+      this.loading = true;
       axios
         .get(`http://${store.state.meosDomain}:2009/meos?get=competition`)
         .then(res => {
@@ -44,7 +49,7 @@ export default Vue.extend({
           store.commit("connected");
         })
         .catch(() => store.commit("disconnected"))
-        .then(() => store.commit("changeLoading"));
+        .then(() => (this.loading = false));
     }
   }
 });

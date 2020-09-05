@@ -7,7 +7,6 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     meosDomain: "localhost",
-    loading: false,
     connectionStatus: null as boolean | null,
     competetionName: undefined as string | undefined,
     pickedClass: null as ClassInfo | null,
@@ -22,9 +21,6 @@ export default new Vuex.Store({
     },
     changeDomain(state, domain: string) {
       state.meosDomain = domain;
-    },
-    changeLoading(state) {
-      state.loading = !state.loading;
     },
     changePickedClass(state, pickedClass: ClassInfo) {
       state.pickedClass = pickedClass;
