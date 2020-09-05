@@ -1,4 +1,4 @@
-# orienteeringtv-vue2
+# OrienteeringTV-client
 
 ## Project setup
 ```
