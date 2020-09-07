@@ -17,6 +17,11 @@ export function calcStartTime(st: number): Time {
   return calcTime(st);
 }
 
+export function calcSeconds(time: Time): number {
+  const { hours, minutes, seconds } = time;
+  return hours * 60 * 60 + minutes * 60 + seconds;
+}
+
 export function stringTime(time: Time): string {
   const { hours, minutes, seconds } = time;
   let timeString: string;
