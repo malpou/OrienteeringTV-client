@@ -24,6 +24,7 @@ export function createClass(resClass: any): ClassInfo {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function createRunner(resRunner: any): Runner {
   const { _, $ } = resRunner.base[0];
+  if (_ == "Vakant") throw "Runner is vacant, and will not get any results";
   return {
     id: +resRunner.$.id,
     name: _,

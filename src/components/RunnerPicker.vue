@@ -50,7 +50,11 @@ export default {
         const resObj = getJSON(res);
         const runners: Runner[] = [];
         resObj.MOPComplete.cmp.forEach((element: unknown) => {
-          runners.push(createRunner(element));
+          try {
+            runners.push(createRunner(element));
+          } catch (error) {
+            return;
+          }
         });
         runners.sort(
           (a, b) => calcSeconds(a.startTime) - calcSeconds(b.startTime)
