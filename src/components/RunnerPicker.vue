@@ -7,7 +7,7 @@
       track-by="name"
       label="name"
       :options="runners"
-      :searchable="false"
+      :searchable="true"
       :allow-empty="false"
     >
       <template slot="singleLabel" slot-scope="{ option }">{{
