@@ -24,6 +24,7 @@ import axios from "axios";
 import Multiselect from "vue-multiselect";
 import { getJSON, createRunner } from "@/utils/objectCreation";
 import { Runner } from "@/utils/types";
+import { calcSeconds } from "@/utils/time";
 
 Vue.component("multiselect", Multiselect);
 
@@ -51,7 +52,9 @@ export default {
         resObj.MOPComplete.cmp.forEach((element: unknown) => {
           runners.push(createRunner(element));
         });
-        //TODO Need to sort the runners by their ID before pushing them to the store
+        runners.sort(
+          (a, b) => calcSeconds(a.startTime) - calcSeconds(b.startTime)
+        );
         store.commit("updateRunners", runners);
       });
   },
