@@ -8,6 +8,40 @@
   </div>
 </template>
 
+<script lang="ts">
+import Vue from "vue";
+import store from "@/store";
+import axios from "axios";
+
+export default Vue.extend({
+  data() {
+    return {
+      interval: (null as unknown) as NodeJS.Timeout
+    };
+  },
+  methods: {
+    checkConnection: function() {
+      if (store.state.connectionStatus) {
+        axios
+          .get(`http://${store.state.meosDomain}:2009/meos?get=competition`)
+          .then(() => {
+            return;
+          })
+          .catch(() => store.commit("disconnected"));
+      }
+    }
+  },
+  created: function() {
+    this.interval = setInterval(() => {
+      this.checkConnection();
+    }, 15000);
+  },
+  beforeDestroy: function() {
+    clearInterval(this.interval);
+  }
+});
+</script>
+
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

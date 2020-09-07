@@ -3,9 +3,11 @@
     <h1>This is the controller page</h1>
     <h3 v-if="!connection">Go to the settings to connect to MeOS</h3>
     <h3 v-else>Connected to: {{ competetionName }}</h3>
-    <h3 v-if="isClassPicked">Picked class: {{ pickedClass.name }}</h3>
-    <runner-picker v-if="isClassPicked" />
-    <h4 v-if="isRunnerPicked">{{ pickedRunnerString }}</h4>
+    <h3 v-if="isClassPicked && connection">
+      Picked class: {{ pickedClass.name }}
+    </h3>
+    <runner-picker v-if="isClassPicked && connection" />
+    <h4 v-if="isRunnerPicked && connection">{{ pickedRunnerString }}</h4>
   </div>
 </template>
 
