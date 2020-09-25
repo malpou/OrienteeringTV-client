@@ -14,7 +14,12 @@ export default new Vuex.Store({
     classes: [] as ClassInfo[],
     isRunnerPicked: false,
     pickedRunner: {} as Runner,
-    runners: [] as Runner[]
+    runners: [] as Runner[],
+    nextDifference: "" as string,
+    singularCredentials: {
+      username: "" as string | undefined,
+      password: "" as string | undefined
+    }
   },
   mutations: {
     connected(state) {
@@ -42,8 +47,13 @@ export default new Vuex.Store({
     },
     updateRunners(state, runners: Runner[]) {
       state.runners = runners;
+    },
+    updateNextDifference(state, newDifference: string) {
+      state.nextDifference = newDifference;
+    },
+    getSingularCredentials(state) {
+      state.singularCredentials.username = process.env.UN;
+      state.singularCredentials.password = process.env.PW;
     }
-  },
-  actions: {},
-  modules: {}
+  }
 });

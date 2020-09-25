@@ -1,30 +1,69 @@
 <template>
-  <div class="controller">
-    <h3 v-if="!connection">Go to the settings to connect to MeOS</h3>
-    <h3 v-else>Connected to: {{ competetionName }}</h3>
-    <h3 v-if="isClassPicked && connection">
-      Picked class: {{ pickedClass.name }}
-    </h3>
-    <runner-picker v-if="isClassPicked && connection" />
-    <h4 v-if="isRunnerPicked && connection">{{ pickedRunnerString }}</h4>
-  </div>
+  <v-container fluid>
+    <h1 v-if="isClassPicked">Results (Top 5)</h1>
+    <v-col cols="12">
+      <v-row align="center" justify="center">
+        <v-card
+          v-for="(radio, index) in pickedClass.radios"
+          :key="radio"
+          class="ma-3 pa-6"
+          outlined
+          tile
+        >
+          Control: {{ radio }}
+          <br />
+          <v-btn
+            @click="btnTop5(radio, index)"
+            color="red"
+            class="white--text"
+            :disabled="serviceRunning && runningIndex !== index"
+            :class="{ green: runningIndex === index }"
+          >
+            {{ runningIndex === index ? "Stop Service" : "Start Service" }}
+          </v-btn>
+        </v-card>
+      </v-row>
+    </v-col>
+  </v-container>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import store from "@/store";
-import RunnerPicker from "@/components/RunnerPicker.vue";
-import { stringTime } from "@/utils/time";
+import { checkForChanges } from "@/utils/checkForChanges";
+import { updateTop5 } from "@/api/top5";
 
 export default Vue.extend({
   name: "Controller",
-  components: { RunnerPicker },
+  data() {
+    return {
+      runningIndex: null as number | null,
+      serviceRunning: null as boolean | null
+    };
+  },
+  methods: {
+    btnTop5(radio: string, index: number) {
+      if (!this.serviceRunning) {
+        this.runningIndex = index;
+        this.serviceRunning = true;
+        this.serviceTop5(radio);
+      } else {
+        this.runningIndex = null;
+        this.serviceRunning = false;
+      }
+    },
+    async serviceTop5(radio: string): Promise<void> {
+      while (this.serviceRunning) {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        if (await checkForChanges(store.state.pickedClass)) {
+          updateTop5(store.state.pickedClass.id, radio);
+        }
+      }
+    }
+  },
   computed: {
     connection() {
       return store.state.connectionStatus;
-    },
-    competetionName() {
-      return store.state.competetionName;
     },
     isClassPicked() {
       return store.state.isClassPicked;
@@ -35,9 +74,8 @@ export default Vue.extend({
     isRunnerPicked() {
       return store.state.isRunnerPicked;
     },
-    pickedRunnerString() {
-      const { name, startTime } = store.state.pickedRunner;
-      return `${name} | ${stringTime(startTime)}`;
+    pickedRunner() {
+      return store.state.pickedRunner;
     }
   }
 });

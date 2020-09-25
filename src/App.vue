@@ -27,10 +27,9 @@
 
       <v-spacer></v-spacer>
 
-      <span v-if="connection">
-        {{ competetionName }} <span v-if="isClassPicked">({{ pickedClass.name }})</span>
+      <span v-if="isRunnerPicked">
+        <b>Following:</b> {{ pickedRunnerString }}
       </span>
-
     </v-app-bar>
 
     <v-main>
@@ -47,6 +46,13 @@
       <span class="white--text"
         >&copy; {{ new Date().getFullYear() }} | Malthe Poulsen</span
       >
+
+      <v-spacer></v-spacer>
+
+      <span class="white--text" v-if="connection">
+        {{ competetionName }}
+        <span v-if="isClassPicked">({{ pickedClass.name }})</span>
+      </span>
     </v-footer>
   </v-app>
 </template>
@@ -75,6 +81,12 @@ export default Vue.extend({
     },
     pickedClass() {
       return store.state.pickedClass;
+    },
+    isRunnerPicked() {
+      return store.state.isRunnerPicked;
+    },
+    pickedRunnerString() {
+      return store.state.pickedRunner.name;
     }
   },
   methods: {
@@ -93,6 +105,7 @@ export default Vue.extend({
     this.interval = setInterval(() => {
       this.checkConnection();
     }, 15000);
+    store.commit("getSingularCredentials");
   },
   beforeDestroy: function() {
     clearInterval(this.interval);

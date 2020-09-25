@@ -52,6 +52,15 @@ export default Vue.extend({
             "updateCompetionName",
             resObj.MOPComplete.competition[0]._
           );
+          axios
+            .get(`http://${store.state.meosDomain}:2009/meos?difference=zero`)
+            .then(res => {
+              const resObj = getJSON(res);
+              store.commit(
+                "updateNextDifference",
+                resObj.MOPComplete.$.nextdifference
+              );
+            });
           store.commit("connected");
         })
         .catch(() => store.commit("disconnected"))

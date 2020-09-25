@@ -22,6 +22,11 @@ export function calcSeconds(time: Time): number {
   return hours * 60 * 60 + minutes * 60 + seconds;
 }
 
+function calcDifference(time1: Time, time2: Time): Time {
+  const diff = calcSeconds(time1) - calcSeconds(time2);
+  return calcTime(diff * 10);
+}
+
 export function stringTime(time: Time): string {
   const { hours, minutes, seconds } = time;
   let timeString: string;
@@ -37,4 +42,14 @@ export function stringTime(time: Time): string {
     timeString = seconds.toString();
   }
   return timeString;
+}
+
+function estimatedTime(startTime: Time): Time {
+  const timeNow = new Date();
+  const currentTime = {
+    hours: timeNow.getHours(),
+    minutes: timeNow.getMinutes(),
+    seconds: timeNow.getSeconds()
+  } as Time;
+  return calcDifference(currentTime, startTime);
 }

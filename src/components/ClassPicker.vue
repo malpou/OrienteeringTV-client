@@ -49,6 +49,7 @@ export default {
         resObj.MOPComplete.cls.forEach((element: unknown) => {
           classes.push(createClass(element));
         });
+        classes.forEach(element => element.radios.push("finish"));
         store.commit("updateClasses", classes);
       });
   },

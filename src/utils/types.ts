@@ -4,6 +4,11 @@ export type ClassInfo = {
   radios: string[];
 };
 
+export type Result = {
+  runner: Runner;
+  result: Time;
+};
+
 export type Runner = {
   id: number;
   name: string;
