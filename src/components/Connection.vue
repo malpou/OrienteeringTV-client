@@ -1,8 +1,14 @@
 <template>
   <div>
-    <button v-if="!connected" @click="connect()" :disabled="this.loading">
+    <v-btn
+      small
+      color="red"
+      class="white--text"
+      @click="connect()"
+      :disabled="this.loading || connected"
+    >
       Connect
-    </button>
+    </v-btn>
     <p v-if="connected">Connected to: {{ competetionName }}</p>
     <p v-else-if="connected === false">
       Connection failed, check if the information server is running

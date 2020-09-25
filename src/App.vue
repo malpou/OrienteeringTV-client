@@ -1,11 +1,54 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Controller</router-link> |
-      <router-link to="/settings">Settings</router-link>
-    </div>
-    <router-view />
-  </div>
+  <v-app>
+    <v-navigation-drawer v-model="drawer" app>
+      <v-list dense>
+        <v-list-item @click="$router.push('/').catch(() => {})">
+          <v-list-item-action>
+            <v-icon>developer_board</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Controller</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item @click="$router.push('/settings').catch(() => {})">
+          <v-list-item-action>
+            <v-icon>settings</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Settings</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-app-bar app color="red" dark>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-toolbar-title>Orienteering TV - Results</v-toolbar-title>
+
+      <v-spacer></v-spacer>
+
+      <span v-if="connection">
+        {{ competetionName }} <span v-if="isClassPicked">({{ pickedClass.name }})</span>
+      </span>
+
+    </v-app-bar>
+
+    <v-main>
+      <v-container fluid>
+        <v-row align="center" justify="center">
+          <v-col class="text-center">
+            <router-view />
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-main>
+
+    <v-footer color="red" app>
+      <span class="white--text"
+        >&copy; {{ new Date().getFullYear() }} | Malthe Poulsen</span
+      >
+    </v-footer>
+  </v-app>
 </template>
 
 <script lang="ts">
@@ -16,8 +59,23 @@ import axios from "axios";
 export default Vue.extend({
   data() {
     return {
+      drawer: null,
       interval: (null as unknown) as NodeJS.Timeout
     };
+  },
+  computed: {
+    connection() {
+      return store.state.connectionStatus;
+    },
+    competetionName() {
+      return store.state.competetionName;
+    },
+    isClassPicked() {
+      return store.state.isClassPicked;
+    },
+    pickedClass() {
+      return store.state.pickedClass;
+    }
   },
   methods: {
     checkConnection: function() {
@@ -42,25 +100,4 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-</style>
+<style lang="scss"></style>
