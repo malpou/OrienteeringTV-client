@@ -55,7 +55,7 @@ export default Vue.extend({
     async serviceTop5(radio: string): Promise<void> {
       while (this.serviceRunning) {
         await new Promise(resolve => setTimeout(resolve, 1000));
-        if (await checkForChanges(this.pickedClass)) {
+        if (await checkForChanges()) {
           updateTop5(this.pickedClass.id, radio);
         }
       }
