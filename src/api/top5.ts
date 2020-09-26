@@ -9,6 +9,7 @@ export function updateTop5(id: number, control: string) {
     )
     .then(res => {
       const resObj = getJSON(res);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { person } = resObj.MOPComplete.results;
     })
     .catch(e => console.log(e));

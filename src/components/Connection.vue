@@ -20,8 +20,7 @@
 <script lang="ts">
 import Vue from "vue";
 import store from "@/store";
-import axios from "axios";
-import { getJSON } from "@/utils/objectCreation";
+import { Competetion, GetKey } from "meos-api-helper";
 
 export default Vue.extend({
   name: "Connection",
@@ -31,9 +30,6 @@ export default Vue.extend({
     };
   },
   computed: {
-    /*loading() {
-      return store.state.loading;
-    },*/
     connected() {
       return store.state.connectionStatus;
     },
@@ -44,24 +40,11 @@ export default Vue.extend({
   methods: {
     connect: function() {
       this.loading = true;
-      axios
-        .get(`http://${store.state.meosDomain}:2009/meos?get=competition`)
-        .then(res => {
-          const resObj = getJSON(res);
-          store.commit(
-            "updateCompetionName",
-            resObj.MOPComplete.competition[0]._
-          );
-          axios
-            .get(`http://${store.state.meosDomain}:2009/meos?difference=zero`)
-            .then(res => {
-              const resObj = getJSON(res);
-              store.commit(
-                "updateNextDifference",
-                resObj.MOPComplete.$.nextdifference
-              );
-            });
+      Competetion()
+        .then(info => {
+          store.commit("updateCompetionName", info.name);
           store.commit("connected");
+          GetKey().then(key => store.commit("updateNextDifference", key));
         })
         .catch(() => store.commit("disconnected"))
         .then(() => (this.loading = false));
@@ -69,5 +52,3 @@ export default Vue.extend({
   }
 });
 </script>
-
-<style lang="scss" scoped></style>

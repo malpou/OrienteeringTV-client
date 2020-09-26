@@ -44,6 +44,7 @@ export function stringTime(time: Time): string {
   return timeString;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function estimatedTime(startTime: Time): Time {
   const timeNow = new Date();
   const currentTime = {
