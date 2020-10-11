@@ -52,6 +52,10 @@ export default {
         classes.forEach(element => element.radios.push("finish"));
         store.commit("updateClasses", classes);
       });
+    /*axios.get(`http://localhost:2009/meos?get=organization`).then(res => {
+      const resObj = getJSON(res);
+      console.log(resObj);
+    });*/
   },
   watch: {
     selectedClass: function(newClass: ClassInfo) {
