@@ -60,7 +60,7 @@
 <script lang="ts">
 import Vue from "vue";
 import store from "@/store";
-import axios from "axios";
+import { Competetion } from "meos-api-helper";
 
 export default Vue.extend({
   data() {
@@ -92,8 +92,7 @@ export default Vue.extend({
   methods: {
     checkConnection: function() {
       if (store.state.connectionStatus) {
-        axios
-          .get(`http://${store.state.meosDomain}:2009/meos?get=competition`)
+        Competetion()
           .then(() => {
             return;
           })
