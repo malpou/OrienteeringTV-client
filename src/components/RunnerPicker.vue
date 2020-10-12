@@ -20,11 +20,9 @@
 <script lang="ts">
 import Vue from "vue";
 import store from "@/store";
-import axios from "axios";
 import Multiselect from "vue-multiselect";
-import { getJSON, createRunner } from "@/utils/objectCreation";
+import { GetStartlist } from "meos-api-helper";
 import { Runner } from "@/utils/types";
-import { calcSeconds } from "@/utils/time";
 
 Vue.component("multiselect", Multiselect);
 
@@ -41,26 +39,11 @@ export default {
       return store.state.runners;
     }
   },
-  created: function() {
-    axios
-      .get(
-        `http://${store.state.meosDomain}:2009/meos?get=competitor&class=${store.state.pickedClass.id}`
-      )
-      .then(res => {
-        const resObj = getJSON(res);
-        const runners: Runner[] = [];
-        resObj.MOPComplete.cmp.forEach((element: unknown) => {
-          try {
-            runners.push(createRunner(element));
-          } catch (error) {
-            return;
-          }
-        });
-        runners.sort(
-          (a, b) => calcSeconds(a.startTime) - calcSeconds(b.startTime)
-        );
-        store.commit("updateRunners", runners);
-      });
+  created: async function() {
+    store.commit(
+      "updateRunners",
+      await GetStartlist(store.state.pickedClass.id)
+    );
   },
   watch: {
     selectedRunner: function(newRunner: Runner) {
