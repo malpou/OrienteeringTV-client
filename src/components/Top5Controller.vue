@@ -32,6 +32,7 @@ import Vue from "vue";
 import store from "@/store";
 import { GetSplit } from "meos-api-helper";
 import { checkForChanges } from "@/utils/checkForChanges";
+import { api } from "@/api/top5";
 
 export default Vue.extend({
   name: "Top5Controller",
@@ -56,7 +57,16 @@ export default Vue.extend({
       while (this.serviceRunning) {
         await new Promise(resolve => setTimeout(resolve, 1000));
         if (await checkForChanges()) {
-          GetSplit(this.pickedClass.id, radio);
+          const response = await GetSplit(this.pickedClass.id, radio);
+          const result = [];
+          for (let i = 0; i < 5; i++) {
+            result.push(response[i]);
+          }
+          api({
+            className: this.pickedClass.name,
+            control: radio,
+            result: result
+          });
         }
       }
     }
