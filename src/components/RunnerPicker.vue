@@ -22,7 +22,7 @@ import Vue from "vue";
 import store from "@/store";
 import Multiselect from "vue-multiselect";
 import { GetStartlist } from "meos-api-helper";
-import { Runner } from "@/utils/types";
+import { Runner } from "meos-api-helper/lib/types";
 
 Vue.component("multiselect", Multiselect);
 

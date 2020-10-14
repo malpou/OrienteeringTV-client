@@ -1,7 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import { ClassInfo } from "@/utils/types";
-import { Runner } from "meos-api-helper/lib/types";
+import { Runner, ClassInfo } from "meos-api-helper/lib/types";
 
 Vue.use(Vuex);
 

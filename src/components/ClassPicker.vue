@@ -22,7 +22,7 @@ import Vue from "vue";
 import store from "@/store";
 import { GetClassList } from "meos-api-helper";
 import Multiselect from "vue-multiselect";
-import { ClassInfo } from "@/utils/types";
+import { ClassInfo } from "meos-api-helper/lib/types";
 
 Vue.component("multiselect", Multiselect);
 
@@ -44,10 +44,6 @@ export default {
       res.forEach(element => element.radios.push("finish"));
       store.commit("updateClasses", res);
     });
-    /*axios.get(`http://localhost:2009/meos?get=organization`).then(res => {
-      const resObj = getJSON(res);
-      console.log(resObj);
-    });*/
   },
   watch: {
     selectedClass: function(newClass: ClassInfo) {

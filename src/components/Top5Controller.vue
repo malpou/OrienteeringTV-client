@@ -30,8 +30,8 @@
 <script lang="ts">
 import Vue from "vue";
 import store from "@/store";
+import { GetSplit } from "meos-api-helper";
 import { checkForChanges } from "@/utils/checkForChanges";
-import { updateTop5 } from "@/api/top5";
 
 export default Vue.extend({
   name: "Top5Controller",
@@ -56,7 +56,7 @@ export default Vue.extend({
       while (this.serviceRunning) {
         await new Promise(resolve => setTimeout(resolve, 1000));
         if (await checkForChanges()) {
-          updateTop5(this.pickedClass.id, radio);
+          GetSplit(this.pickedClass.id, radio);
         }
       }
     }
