@@ -20,9 +20,8 @@
 <script lang="ts">
 import Vue from "vue";
 import store from "@/store";
-import axios from "axios";
+import { GetClassList } from "meos-api-helper";
 import Multiselect from "vue-multiselect";
-import { getJSON, createClass } from "@/utils/objectCreation";
 import { ClassInfo } from "@/utils/types";
 
 Vue.component("multiselect", Multiselect);
@@ -41,17 +40,10 @@ export default {
     }
   },
   created: function() {
-    axios
-      .get(`http://${store.state.meosDomain}:2009/meos?get=class`)
-      .then(res => {
-        const resObj = getJSON(res);
-        const classes: ClassInfo[] = [];
-        resObj.MOPComplete.cls.forEach((element: unknown) => {
-          classes.push(createClass(element));
-        });
-        classes.forEach(element => element.radios.push("finish"));
-        store.commit("updateClasses", classes);
-      });
+    GetClassList().then(res => {
+      res.forEach(element => element.radios.push("finish"));
+      store.commit("updateClasses", res);
+    });
     /*axios.get(`http://localhost:2009/meos?get=organization`).then(res => {
       const resObj = getJSON(res);
       console.log(resObj);
