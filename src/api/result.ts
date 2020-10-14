@@ -1,3 +1,10 @@
-export default function() {
-  console.log("results sent");
+import { Runner } from "meos-api-helper/lib/types";
+
+export function api(data: data) {
+  console.log(data);
 }
+
+type data = {
+  className: string;
+  result: Runner[];
+};

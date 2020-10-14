@@ -18,6 +18,8 @@
 
 <script lang="ts">
 import store from "@/store";
+import { GetResult } from "meos-api-helper";
+import { api } from "@/api/result";
 import Vue from "vue";
 
 export default Vue.extend({
@@ -33,8 +35,11 @@ export default Vue.extend({
       this.serviceResult();
       this.loading = false;
     },
-    serviceResult() {
-      console.log("Results Updated");
+    async serviceResult() {
+      api({
+        className: this.pickedClass.name,
+        result: await GetResult(this.pickedClass.id)
+      });
     }
   },
   computed: {
