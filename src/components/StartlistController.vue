@@ -3,16 +3,14 @@
     <h1>Startlist</h1>
     <v-col cols="12">
       <v-row align="center" justify="center">
-        <v-card class="ma-3 pa-6" outlined tile>
-          <v-btn
-            @click="btnStartlist"
-            color="red"
-            class="white--text"
-            :disabled="loading"
-          >
-            Update
-          </v-btn>
-        </v-card>
+        <v-btn
+          @click="btnStartlist"
+          color="red"
+          class="white--text"
+          :disabled="loading"
+        >
+          Update
+        </v-btn>
       </v-row>
     </v-col>
   </div>
