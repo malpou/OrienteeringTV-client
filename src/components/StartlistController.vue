@@ -19,6 +19,8 @@
 <script lang="ts">
 import Vue from "vue";
 import store from "@/store";
+import { api } from "@/api/startlist";
+import { GetStartlist } from "meos-api-helper";
 
 export default Vue.extend({
   name: "StartlistController",
@@ -33,8 +35,11 @@ export default Vue.extend({
       this.serviceStartlist();
       this.loading = false;
     },
-    serviceStartlist() {
-      console.log("Startlist Updated");
+    async serviceStartlist() {
+      api({
+        name: this.pickedClass.name,
+        result: await GetStartlist(this.pickedClass.id)
+      });
     }
   },
   computed: {
