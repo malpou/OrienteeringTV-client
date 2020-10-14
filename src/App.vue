@@ -60,6 +60,7 @@
 <script lang="ts">
 import Vue from "vue";
 import store from "@/store";
+import router from "@/router";
 import { Competetion } from "meos-api-helper";
 
 export default Vue.extend({
@@ -96,11 +97,16 @@ export default Vue.extend({
           .then(() => {
             return;
           })
-          .catch(() => store.commit("disconnected"));
+          .catch(() => {
+            store.commit("disconnected");
+          });
       }
     }
   },
   created: function() {
+    if (!this.connection) {
+      router.push("/settings").catch();
+    }
     this.interval = setInterval(() => {
       this.checkConnection();
     }, 15000);

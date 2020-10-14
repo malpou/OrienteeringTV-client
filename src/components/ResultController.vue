@@ -1,11 +1,11 @@
 <template>
   <div>
-    <h1>Startlist</h1>
+    <h1>Results</h1>
     <v-col cols="12">
       <v-row align="center" justify="center">
         <v-card class="ma-3 pa-6" outlined tile>
           <v-btn
-            @click="btnStartlist"
+            @click="btnResult"
             color="red"
             class="white--text"
             :disabled="loading"
@@ -19,24 +19,24 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
 import store from "@/store";
+import Vue from "vue";
 
 export default Vue.extend({
-  name: "StartlistController",
+  name: "ResultController",
   data() {
     return {
       loading: false
     };
   },
   methods: {
-    btnStartlist() {
+    btnResult() {
       this.loading = true;
-      this.serviceStartlist();
+      this.serviceResult();
       this.loading = false;
     },
-    serviceStartlist() {
-      console.log("Startlist Updated");
+    serviceResult() {
+      console.log("Results Updated");
     }
   },
   computed: {
