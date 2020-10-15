@@ -31,7 +31,10 @@
 import Vue from "vue";
 import { checkForChanges } from "@/utils/checkForChanges";
 import { GetSplit } from "meos-api-helper";
+import { Runner } from "meos-api-helper/lib/types";
+import { EstimatedTime } from "meos-time-helper";
 import store from "@/store";
+import { api } from "@/api/rolling";
 
 export default Vue.extend({
   name: "RollingController",
@@ -55,8 +58,30 @@ export default Vue.extend({
     async serviceRolling(radio: string): Promise<void> {
       while (this.serviceRunning) {
         await new Promise(resolve => setTimeout(resolve, 1000));
-        if (await checkForChanges()) {
-          GetSplit(this.pickedClass.id, radio);
+        const response = await GetSplit(this.pickedClass.id, radio);
+        let found = false;
+        response.forEach(runner => {
+          if (runner.id === this.pickedRunner.id) {
+            found = true;
+          }
+        });
+
+        if (!found) {
+          const runner = this.pickedRunner;
+          runner["runTime"] = EstimatedTime(runner.startTime);
+          response.push(runner);
+          //api(runner);
+          console.log(`${runner.runTime.minutes}:${runner.runTime.seconds}`);
+        } else {
+          const index = response.findIndex(
+            runner => runner.id === this.pickedRunner.id
+          );
+          const data = [
+            response[index - 1],
+            response[index],
+            response[index + 1]
+          ] as Runner[];
+          api(data);
         }
       }
     }
@@ -64,9 +89,10 @@ export default Vue.extend({
   computed: {
     pickedClass() {
       return store.state.pickedClass;
+    },
+    pickedRunner() {
+      return store.state.pickedRunner;
     }
   }
 });
 </script>
-
-<style scoped></style>
