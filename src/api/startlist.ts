@@ -1,4 +1,4 @@
-import { Runner } from "meos-api-helper/lib/types";
+import { RunnerST } from "meos-api-helper/lib/types";
 
 export function api(data: data) {
   console.log(data);
@@ -6,5 +6,5 @@ export function api(data: data) {
 
 type data = {
   name: string;
-  result: Runner[];
+  result: RunnerST[];
 };

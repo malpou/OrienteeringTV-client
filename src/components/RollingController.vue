@@ -29,10 +29,9 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { checkForChanges } from "@/utils/checkForChanges";
 import { GetSplit } from "meos-api-helper";
-import { Runner } from "meos-api-helper/lib/types";
-import { EstimatedTime } from "meos-time-helper";
+import { RunnerRT } from "meos-api-helper/lib/types";
+import { EstimatedTime, Time2Sec } from "meos-time-helper";
 import store from "@/store";
 import { api } from "@/api/rolling";
 
@@ -68,21 +67,20 @@ export default Vue.extend({
 
         if (!found) {
           const runner = this.pickedRunner;
-          runner["runTime"] = EstimatedTime(runner.startTime);
-          response.push(runner);
-          //api(runner);
-          console.log(`${runner.runTime.minutes}:${runner.runTime.seconds}`);
-        } else {
-          const index = response.findIndex(
-            runner => runner.id === this.pickedRunner.id
-          );
-          const data = [
-            response[index - 1],
-            response[index],
-            response[index + 1]
-          ] as Runner[];
-          api(data);
+          response.push({
+            id: runner.id,
+            name: runner.name,
+            club: runner.club,
+            category: runner.category,
+            place: null,
+            runTime: EstimatedTime(runner.startTime)
+          } as RunnerRT);
+          response.sort((a, b) => Time2Sec(a.runTime) - Time2Sec(b.runTime));
         }
+        const index = response.findIndex(
+          runner => runner.id === this.pickedRunner.id
+        );
+        api([response[index - 1], response[index], response[index + 1]]);
       }
     }
   },

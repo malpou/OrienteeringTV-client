@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import { Runner, ClassInfo } from "meos-api-helper/lib/types";
+import { RunnerST, ClassInfo } from "meos-api-helper/lib/types";
 
 Vue.use(Vuex);
 
@@ -13,8 +13,8 @@ export default new Vuex.Store({
     pickedClass: {} as ClassInfo,
     classes: [] as ClassInfo[],
     isRunnerPicked: false,
-    pickedRunner: {} as Runner,
-    runners: [] as Runner[],
+    pickedRunner: {} as RunnerST,
+    runners: [] as RunnerST[],
     nextDifference: "" as string,
     singularCredentials: {
       username: "" as string | undefined,
@@ -35,7 +35,7 @@ export default new Vuex.Store({
       state.pickedClass = pickedClass;
       state.isClassPicked = true;
     },
-    changePickedRunner(state, pickedRunner: Runner) {
+    changePickedRunner(state, pickedRunner: RunnerST) {
       state.pickedRunner = pickedRunner;
       state.isRunnerPicked = true;
     },
@@ -45,7 +45,7 @@ export default new Vuex.Store({
     updateClasses(state, classes: ClassInfo[]) {
       state.classes = classes;
     },
-    updateRunners(state, runners: Runner[]) {
+    updateRunners(state, runners: RunnerST[]) {
       state.runners = runners;
     },
     updateNextDifference(state, newDifference: string) {

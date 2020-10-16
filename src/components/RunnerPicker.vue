@@ -22,7 +22,7 @@ import Vue from "vue";
 import store from "@/store";
 import Multiselect from "vue-multiselect";
 import { GetStartlist } from "meos-api-helper";
-import { Runner } from "meos-api-helper/lib/types";
+import { RunnerST } from "meos-api-helper/lib/types";
 
 Vue.component("multiselect", Multiselect);
 
@@ -46,7 +46,7 @@ export default {
     );
   },
   watch: {
-    selectedRunner: function(newRunner: Runner) {
+    selectedRunner: function(newRunner: RunnerST) {
       store.commit("changePickedRunner", newRunner);
     }
   }

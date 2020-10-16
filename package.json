@@ -16,7 +16,7 @@
     "axios": "^0.20.0",
     "dotenv": "^8.2.0",
     "material-design-icons-iconfont": "^5.0.1",
-    "meos-api-helper": "^0.3.9",
+    "meos-api-helper": "^0.3.11",
     "meos-time-helper": "^0.2.3",
     "roboto-fontface": "*",
     "vue": "^2.6.11",
