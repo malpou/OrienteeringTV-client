@@ -80,7 +80,13 @@ export default Vue.extend({
         const index = response.findIndex(
           runner => runner.id === this.pickedRunner.id
         );
-        api([response[index - 1], response[index], response[index + 1]]);
+        if (index === 0) {
+          api([response[index], response[index + 1], response[index + 2]]);
+        } else if (index + 1 === response.length) {
+          api([response[index - 2], response[index - 1], response[index]]);
+        } else {
+          api([response[index - 1], response[index], response[index + 1]]);
+        }
       }
     }
   },
