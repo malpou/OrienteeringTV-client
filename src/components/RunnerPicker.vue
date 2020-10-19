@@ -57,11 +57,9 @@ export default {
     selectedRunner: function(newRunner: RunnerST) {
       store.commit("changePickedRunner", newRunner);
     },
-    runners: function() {
-      this.updateRunners();
-    },
     pickedClass: function() {
       store.state.runners = [];
+      this.updateRunners();
     }
   }
 };
