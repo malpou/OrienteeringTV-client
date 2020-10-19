@@ -1,8 +1,8 @@
 import { RunnerRT } from "meos-api-helper/lib/types";
 
-export function api(data: RunnerRT[]) {
+export function api(data: data) {
   console.clear();
-  for (const iterator of data) {
+  for (const iterator of data.result) {
     console.log(
       `${iterator.place === null ? "place" : iterator.place}  - ${
         iterator.name
@@ -10,3 +10,9 @@ export function api(data: RunnerRT[]) {
     );
   }
 }
+
+type data = {
+  className: string;
+  control: string;
+  result: RunnerRT[];
+};

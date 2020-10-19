@@ -5,6 +5,6 @@ export function api(data: data) {
 }
 
 type data = {
-  name: string;
-  result: RunnerST[];
+  className: string;
+  startlist: RunnerST[];
 };

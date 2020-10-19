@@ -37,8 +37,8 @@ export default Vue.extend({
     },
     async serviceStartlist() {
       api({
-        name: this.pickedClass.name,
-        result: await GetStartlist(this.pickedClass.id)
+        className: this.pickedClass.name,
+        startlist: await GetStartlist(this.pickedClass.id)
       });
     }
   },

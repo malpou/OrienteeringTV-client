@@ -80,13 +80,31 @@ export default Vue.extend({
         const index = response.findIndex(
           runner => runner.id === this.pickedRunner.id
         );
+        let timeData = [];
         if (index === 0) {
-          api([response[index], response[index + 1], response[index + 2]]);
+          timeData = [
+            response[index],
+            response[index + 1],
+            response[index + 2]
+          ];
         } else if (index + 1 === response.length) {
-          api([response[index - 2], response[index - 1], response[index]]);
+          timeData = [
+            response[index - 2],
+            response[index - 1],
+            response[index]
+          ];
         } else {
-          api([response[index - 1], response[index], response[index + 1]]);
+          timeData = [
+            response[index - 1],
+            response[index],
+            response[index + 1]
+          ];
         }
+        api({
+          className: this.pickedClass.name,
+          control: radio,
+          result: timeData
+        });
       }
     }
   },
