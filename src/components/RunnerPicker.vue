@@ -34,20 +34,34 @@ export default {
       selectedRunner: store.state.pickedRunner
     };
   },
+  methods: {
+    async updateRunners() {
+      store.commit(
+        "updateRunners",
+        await GetStartlist(store.state.pickedClass.id)
+      );
+    }
+  },
   computed: {
     runners() {
       return store.state.runners;
+    },
+    pickedClass() {
+      return store.state.pickedClass;
     }
   },
-  created: async function() {
-    store.commit(
-      "updateRunners",
-      await GetStartlist(store.state.pickedClass.id)
-    );
+  created: function() {
+    this.updateRunners();
   },
   watch: {
     selectedRunner: function(newRunner: RunnerST) {
       store.commit("changePickedRunner", newRunner);
+    },
+    runners: function() {
+      this.updateRunners();
+    },
+    pickedClass: function() {
+      store.state.runners = [];
     }
   }
 };
