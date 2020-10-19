@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Results</h1>
+    <h1>Results (Full)</h1>
     <v-col cols="12">
       <v-row align="center" justify="center">
         <v-btn
