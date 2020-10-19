@@ -65,6 +65,8 @@ export default Vue.extend({
           }
         });
 
+        const bestTime = response[0].runTime;
+
         if (!found) {
           const runner = this.pickedRunner;
           response.push({
@@ -103,7 +105,8 @@ export default Vue.extend({
         api({
           className: this.pickedClass.name,
           control: radio,
-          result: timeData
+          result: timeData,
+          bestTime: bestTime
         });
       }
     }

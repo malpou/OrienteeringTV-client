@@ -1,18 +1,17 @@
-import { RunnerRT } from "meos-api-helper/lib/types";
+import { createResult } from "@/utils/jsonResult";
+import { RunnerRT, Time } from "meos-api-helper/lib/types";
 
 export function api(data: data) {
-  console.clear();
-  for (const iterator of data.result) {
-    console.log(
-      `${iterator.place === null ? "place" : iterator.place}  - ${
-        iterator.name
-      }    - ${iterator.runTime.minutes}:${iterator.runTime.seconds}`
-    );
+  const arr = [];
+  for (const runner of data.result) {
+    arr.push(createResult(runner, data.bestTime));
   }
+  console.log(arr);
 }
 
 type data = {
   className: string;
   control: string;
   result: RunnerRT[];
+  bestTime: Time;
 };

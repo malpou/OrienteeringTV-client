@@ -54,21 +54,23 @@ export default Vue.extend({
       }
     },
     async serviceTop5(radio: string): Promise<void> {
+      this.updateResult(radio);
       while (this.serviceRunning) {
         await new Promise(resolve => setTimeout(resolve, 1000));
-        if (await checkForChanges()) {
-          const response = await GetSplit(this.pickedClass.id, radio);
-          const result = [];
-          for (let i = 0; i < 5; i++) {
-            result.push(response[i]);
-          }
-          api({
-            className: this.pickedClass.name,
-            control: radio,
-            result: result
-          });
-        }
+        if (await checkForChanges()) this.updateResult(radio);
       }
+    },
+    async updateResult(radio: string): Promise<void> {
+      const response = await GetSplit(this.pickedClass.id, radio);
+      const result = [];
+      for (let i = 0; i < 5; i++) {
+        result.push(response[i]);
+      }
+      api({
+        className: this.pickedClass.name,
+        control: radio,
+        result: result
+      });
     }
   },
   computed: {
