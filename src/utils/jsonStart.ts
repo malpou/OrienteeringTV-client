@@ -5,7 +5,7 @@ export function createStartlist(runner: RunnerST): json {
   return {
     NAME: runner.name,
     CLUB: runner.club.name,
-    TIME: timeString(runner.startTime)
+    TIME: timeString(runner.startTime).slice(0, -3)
   };
 }
 
