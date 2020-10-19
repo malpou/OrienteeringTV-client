@@ -56,7 +56,6 @@ export default Vue.extend({
     },
     async serviceRolling(radio: string): Promise<void> {
       while (this.serviceRunning) {
-        await new Promise(resolve => setTimeout(resolve, 1000));
         const response = await GetSplit(this.pickedClass.id, radio);
         let found = false;
         response.forEach(runner => {
