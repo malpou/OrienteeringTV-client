@@ -1,4 +1,5 @@
 import { createResult } from "@/utils/jsonResult";
+import { sendData } from '@/utils/toSingular';
 import { RunnerRT } from "meos-api-helper/lib/types";
 
 export function api(data: data) {
@@ -9,6 +10,7 @@ export function api(data: data) {
     arr.push(createResult(runner, data.result[0].runTime));
   }
   console.log(arr);
+  sendData(3466, arr);
 }
 
 type data = {

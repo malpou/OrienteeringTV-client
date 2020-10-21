@@ -3,7 +3,7 @@ import { Difference, Time2Sec } from "meos-time-helper";
 import { shortenName } from "./shortenName";
 import { timeString } from "./timeString";
 
-export function createResult(runner: RunnerRT, bestTime: Time): json {
+export function createResult(runner: RunnerRT, bestTime: Time): jsonRes {
   return {
     PLACE: runner.place !== null ? runner.place.toString() : " ",
     NAME: shortenName(runner.name),
@@ -18,7 +18,7 @@ export function createResult(runner: RunnerRT, bestTime: Time): json {
   };
 }
 
-type json = {
+export type jsonRes = {
   PLACE: string;
   NAME: string;
   TIME: string;

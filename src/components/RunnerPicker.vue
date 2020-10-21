@@ -34,14 +34,6 @@ export default {
       selectedRunner: store.state.pickedRunner
     };
   },
-  methods: {
-    async updateRunners() {
-      store.commit(
-        "updateRunners",
-        await GetStartlist(store.state.pickedClass.id)
-      );
-    }
-  },
   computed: {
     runners() {
       return store.state.runners;
@@ -50,16 +42,22 @@ export default {
       return store.state.pickedClass;
     }
   },
-  created: function() {
-    this.updateRunners();
+  created: async function() {
+    store.commit(
+      "updateRunners",
+      await GetStartlist(store.state.pickedClass.id)
+    );
   },
   watch: {
     selectedRunner: function(newRunner: RunnerST) {
       store.commit("changePickedRunner", newRunner);
     },
-    pickedClass: function() {
+    pickedClass: async function() {
       store.state.runners = [];
-      this.updateRunners();
+      store.commit(
+        "updateRunners",
+        await GetStartlist(store.state.pickedClass.id)
+      );
     }
   }
 };

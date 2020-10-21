@@ -1,7 +1,7 @@
 import { RunnerST } from "meos-api-helper/lib/types";
 import { timeString } from "./timeString";
 
-export function createStartlist(runner: RunnerST): json {
+export function createStartlist(runner: RunnerST): jsonSta {
   return {
     NAME: runner.name,
     CLUB: runner.club.name,
@@ -9,7 +9,7 @@ export function createStartlist(runner: RunnerST): json {
   };
 }
 
-type json = {
+export type jsonSta = {
   NAME: string;
   CLUB: string;
   TIME: string;
